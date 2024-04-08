@@ -1,6 +1,10 @@
 from dataclasses import dataclass
-import tomllib
 from pathlib import Path
+
+try:
+    import tomllib
+except ImportError:
+    import tomli as tomllib
 
 PATTERNS_FILE = Path(__file__).parent / "patterns.toml"
 
@@ -12,7 +16,10 @@ class Pattern:
 
     @classmethod
     def from_toml(cls, name, toml_data):
-        return cls(name, alive_cells={tuple(cell) for cell in toml_data["alive_cells"]})
+        return cls(
+            name,
+            alive_cells={tuple(cell) for cell in toml_data["alive_cells"]},
+        )
 
 
 def get_pattern(name, filename=PATTERNS_FILE):
